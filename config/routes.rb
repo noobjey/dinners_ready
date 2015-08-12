@@ -37,6 +37,12 @@ Rails.application.routes.draw do
 
   get "/orders", to: "orders#index"
   get "/orders/:id", to: "orders#show"
+
+  namespace :api do
+    namespace :v1 do
+      resources :items, only: [:index]
+    end
+  end
 end
 
 

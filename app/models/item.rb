@@ -34,4 +34,13 @@ class Item < ActiveRecord::Base
       errors.add(:category, "must be selected")
     end
   end
+
+  def self.filter_by_category(choice)
+    if !choice
+      Item.all
+    else
+      hash = { 'breakfast' => 1, 'lunch' => 2, 'dinner' => 3 }
+      Item.where(category_id: hash[choice])
+    end
+  end
 end
