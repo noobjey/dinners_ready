@@ -14,8 +14,7 @@ gem "twilio-ruby"
 gem "bootstrap-sass"
 gem "autoprefixer-rails"
 gem "google_directions"
-gem 'responders'
-gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
+gem "responders"
 
 group :development, :test do
   gem 'byebug'

@@ -4,8 +4,11 @@ RSpec.describe "a user with one previous order", type: :feature do
   let!(:item) { Fabricate(:item) }
   let!(:user) { Fabricate(:user) }
   let!(:status) { Status.create(name: "Completed") }
+  let!(:category) { Category.create(name: "lunch") }
 
   before do
+    allow_any_instance_of(OrdersController)
+      .to receive(:send_text_message).and_return(true)
     sign_in(user)
 
     within(".item-info") do
@@ -82,6 +85,19 @@ RSpec.describe "a user with one previous order", type: :feature do
           within(".order") do
             expect(page).to have_content "Status"
             expect(page).to have_content status.name
+          end
+        end
+
+        context "views item details" do
+          before do
+            item.update_attribute(:status, 1)
+            click_link("View")
+          end
+
+          it "retired item does not have add to cart" do
+            expect(current_path).to eq(meal_path(item))
+            expect(page).to have_content(item.name)
+            expect(page).not_to have_button("Add to Cart")
           end
         end
       end
